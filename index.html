@@ -2,7 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>LÌ XÌ TẾT PRO 2026 - NHẬN LỘC NGAY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LÌ XÌ TẾT 2026</title>
     <style>
         body {
             margin: 0;
@@ -13,52 +14,49 @@
             text-align: center;
             color: white;
             user-select: none;
+            touch-action: manipulation;
         }
 
-        h1 { margin-top: 30px; text-shadow: 0 0 20px gold; font-size: 35px; }
-        #status-text { font-size: 20px; color: gold; margin-top: 10px; height: 30px; }
+        h1 { margin-top: 20px; font-size: 28px; text-shadow: 0 0 15px gold; padding: 0 10px; }
+        #status-text { font-size: 18px; color: gold; margin: 10px; height: 40px; }
 
-        /* Envelope Styling */
         .scene {
-            width: 180px;
-            height: 250px;
-            margin: 50px auto;
+            width: 150px;
+            height: 220px;
             perspective: 1000px;
             position: absolute;
             left: 50%;
-            top: 40%;
+            top: 50%;
             transform: translate(-50%, -50%);
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
         }
 
         .envelope {
             width: 100%;
             height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-        }
-
-        .front {
             background: linear-gradient(#d40000, #ff0000);
-            box-shadow: 0 0 30px gold;
-            border-radius: 15px;
+            box-shadow: 0 0 25px gold;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 80px;
-            height: 100%;
+            font-size: 60px;
+            border: 2px solid #ffcc00;
         }
 
-        /* Money / Message Area */
         #message-area {
             display: none;
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
             padding: 20px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 10px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 15px;
+            border: 2px solid gold;
+            z-index: 200;
         }
 
         .flash { animation: flash-bg 0.2s infinite; }
@@ -70,13 +68,11 @@
 </head>
 <body>
 
-<h1>🧧 LÌ XÌ TẾT PRO 2026 🧧</h1>
-<div id="status-text">Đưa chuột vào bao lì xì để nhận lộc!</div>
+<h1>🧧 LÌ XÌ MAY MẮN 2026 🧧</h1>
+<div id="status-text">Bấm vào bao lì xì để nhận lộc đầu năm!</div>
 
 <div class="scene" id="lixi-container">
-    <div class="envelope" id="env">
-        <div class="front" id="lixi-icon">🧧</div>
-    </div>
+    <div class="envelope" id="lixi-icon">🧧</div>
 </div>
 
 <div id="message-area"></div>
@@ -90,59 +86,64 @@
     const statusText = document.getElementById('status-text');
     const lixiIcon = document.getElementById('lixi-icon');
 
-    // 1. Logic chạy trốn
-    container.addEventListener('mouseover', () => {
+    // Hàm xử lý khi người dùng chạm vào (dành cho mobile)
+    function handleTouch(e) {
+        e.preventDefault(); // Chặn hành vi mặc định
+
         if (runCount < maxRun) {
+            // Giai đoạn 1: Chạy trốn
             runCount++;
-            statusText.innerText = `Kiếp nạn thứ ${runCount}: Nhanh tay lên nào!`;
+            statusText.innerText = `Hụt rồi! Nhanh tay hơn chút nữa nào! (${runCount}/${maxRun})`;
             
-            const newX = Math.random() * (window.innerWidth - 200) + 100;
-            const newY = Math.random() * (window.innerHeight - 300) + 150;
+            // Tính toán vị trí mới an toàn trong màn hình điện thoại
+            const safeWidth = window.innerWidth - 160;
+            const safeHeight = window.innerHeight - 250;
+            
+            const newX = Math.random() * safeWidth + 80;
+            const newY = Math.random() * safeHeight + 110;
             
             container.style.left = newX + 'px';
             container.style.top = newY + 'px';
-        } else {
-            statusText.innerText = "Đã tóm được! Hãy bấm mở ngay!";
-        }
-    });
 
-    // 2. Logic Búp bê Nga (Inception)
-    container.addEventListener('click', () => {
-        if (runCount < maxRun) return;
+            // Rung phản hồi (nếu máy hỗ trợ)
+            if (navigator.vibrate) navigator.vibrate(50);
 
-        if (nestCount < maxNest) {
+        } else if (nestCount < maxNest) {
+            // Giai đoạn 2: Búp bê Nga
             nestCount++;
-            // Làm bao lì xì nhỏ dần mỗi lần bấm
-            const scale = 1 - (nestCount * 0.15);
+            const scale = 1 - (nestCount * 0.12);
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
             
-            // Thay đổi icon để trêu chọc
-            const icons = ["🧧", "✉️", "📦", "🤏", "🕳️"];
+            const icons = ["🧧", "✉️", "📩", "📨", "🤏"];
             lixiIcon.innerText = icons[nestCount % icons.length];
+            statusText.innerText = `Gần mở được rồi... lớp thứ ${nestCount}!`;
             
-            statusText.innerText = `Ô kìa! Còn một cái bao nhỏ hơn ở trong... (${nestCount}/${maxNest})`;
+            if (navigator.vibrate) navigator.vibrate(30);
         } else {
+            // Giai đoạn 3: Dội bom Alert
             startFinalTroll();
         }
-    });
+    }
 
-    // 3. Cơn mưa thông báo (Alert Spam)
+    // Lắng nghe cả sự kiện Click và Touch để đảm bảo hoạt động mọi nơi
+    container.addEventListener('touchstart', handleTouch);
+    container.addEventListener('click', handleTouch);
+
     function startFinalTroll() {
         container.style.display = 'none';
         statusText.style.display = 'none';
         document.body.classList.add('flash');
         
         const trollMessages = [
-            "🧧 Đang kết nối với ngân hàng trung ương...",
-            "🔍 Đang phân tích sinh trắc học...",
-            "❌ LỖI: Phát hiện nhan sắc không đủ điều kiện nhận tiền!",
-            "🤨 Bạn định mở bao nhiêu cái nữa mới chịu thôi?",
-            "🚫 Tài khoản của bạn đã bị trừ 500k phí 'Tò mò'!",
-            "🤡 Nick Facebook của bạn đang được gửi khánh đe zét...",
-            "📁 máy tính nổ tung trong 3.... 2.....1....? ",
-            "🤣 Thôi giỡn đó! Đừng có mặt xanh lẹt vậy chứ!",
-            "🎊 Chúc mừng bạn đã trúng 1 năm may mắn và tỉnh táo tôi nghèo ko có tiền đâu!",
-            "🎉 CHÚC MỪNG NĂM MỚI 2026! 🎉"
+            "🧧 Hệ thống đang kết nối ví MoMo/ZaloPay...",
+            "⚠️ LỖI: Phát hiện người dùng quá ngu!",
+            "🔍 Đang quét độ lười biếng của bạn trong năm qua...",
+            "❌ Kết quả: Quá lười! Không được nhận lì xì.",
+            "💸 Đang tiến hành trừ 50k vào hóa đơn điện thoại...",
+            "🤡 tưởng có tiền thật à? Đang là năm 2026 đó!",
+            "🧧 Điện thoại chuẩn bị nổ trong 1.....2.....3...?!",
+            "🤣 nổ thật thì toang!",
+            "🧧 gah dayum! 🧧"
         ];
 
         let i = 0;
@@ -150,17 +151,17 @@
             if (i < trollMessages.length) {
                 alert(trollMessages[i]);
                 i++;
-                setTimeout(showNextAlert, 100);
+                setTimeout(showNextAlert, 150);
             } else {
                 document.body.classList.remove('flash');
                 document.getElementById('message-area').style.display = 'block';
-                document.getElementById('message-area').innerHTML = "<h2>🧧 CHÚC MỪNG NĂM MỚI 🧧</h2><p>Troll xíu cho vui thôi, chúc bạn 2026 vạn sự như ý!</p>";
+                document.getElementById('message-area').innerHTML = "<h2>🧧 HAPPY NEW YEAR 🧧</h2><p>Đang nghèo không có lì xì đâu!</p>";
             }
         }
         showNextAlert();
     }
 
-    // Hiệu ứng hoa rơi
+    // Hiệu ứng hoa đào rơi
     function createFlowers() {
         const f = document.createElement("div");
         f.className = "flower";
@@ -168,12 +169,12 @@
         f.style.left = Math.random() * 100 + "vw";
         f.style.animationDuration = (Math.random() * 3 + 4) + "s";
         document.body.appendChild(f);
-        setTimeout(() => f.remove(), 6000);
+        setTimeout(() => f.remove(), 5000);
     }
-    setInterval(createFlowers, 400);
+    setInterval(createFlowers, 500);
 
-    // Chặn chuột phải
-    document.oncontextmenu = () => false;
+    // Chặn menu chuột phải và các phím tắt
+    window.oncontextmenu = () => false;
 </script>
 </body>
 </html>
