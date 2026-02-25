@@ -1,292 +1,179 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Lì Xì Tết PRO 2026</title>
+    <meta charset="UTF-8">
+    <title>LÌ XÌ TẾT PRO 2026 - NHẬN LỘC NGAY</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle, #ff1a1a, #7a0000);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: white;
+            user-select: none;
+        }
 
-<style>
-body{
-margin:0;
-overflow:hidden;
-background:radial-gradient(circle,#ff1a1a,#7a0000);
-font-family:sans-serif;
-text-align:center;
-color:white;
-}
+        h1 { margin-top: 30px; text-shadow: 0 0 20px gold; font-size: 35px; }
+        #status-text { font-size: 20px; color: gold; margin-top: 10px; height: 30px; }
 
-/* ===== TITLE ===== */
-h1{
-margin-top:30px;
-font-size:38px;
-text-shadow:0 0 20px gold;
-}
+        /* Envelope Styling */
+        .scene {
+            width: 180px;
+            height: 250px;
+            margin: 50px auto;
+            perspective: 1000px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+        }
 
-/* ===== 3D ENVELOPE ===== */
-.scene{
-width:220px;
-height:300px;
-margin:60px auto;
-perspective:1000px;
-cursor:pointer;
-}
+        .envelope {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
 
-.envelope{
-width:100%;
-height:100%;
-position:relative;
-transform-style:preserve-3d;
-transition:1s;
-}
+        .front {
+            background: linear-gradient(#d40000, #ff0000);
+            box-shadow: 0 0 30px gold;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            height: 100%;
+        }
 
-.envelope.open{
-transform:rotateX(180deg);
-}
+        /* Money / Message Area */
+        #message-area {
+            display: none;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+        }
 
-.front, .back{
-position:absolute;
-width:100%;
-height:100%;
-border-radius:15px;
-backface-visibility:hidden;
-}
+        .flash { animation: flash-bg 0.2s infinite; }
+        @keyframes flash-bg { from { background: #7a0000; } to { background: #ff0000; } }
 
-.front{
-background:linear-gradient(#d40000,#ff0000);
-box-shadow:0 0 30px gold;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:50px;
-}
-
-.back{
-background:#aa0000;
-transform:rotateX(180deg);
-}
-
-/* ===== MONEY CARD ===== */
-.money{
-display:none;
-margin-top:20px;
-}
-
-.note{
-width:350px;
-height:150px;
-margin:20px auto;
-border-radius:15px;
-position:relative;
-color:white;
-font-weight:bold;
-font-size:28px;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 0 30px black;
-animation:slide 1s ease forwards;
-}
-
-.note:before{
-content:"VIỆT NAM";
-position:absolute;
-top:10px;
-left:15px;
-font-size:14px;
-opacity:0.7;
-}
-
-.note:after{
-content:"CHÚC MỪNG NĂM MỚI";
-position:absolute;
-bottom:10px;
-right:15px;
-font-size:12px;
-opacity:0.7;
-}
-
-@keyframes slide{
-from{transform:translateY(120px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-/* ===== FLASH ===== */
-.flash{
-animation:flash 0.4s alternate 6;
-}
-@keyframes flash{
-from{background:#7a0000;}
-to{background:gold;}
-}
-
-/* ===== FIREWORK ===== */
-.firework{
-position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
-animation:explode 1s ease-out forwards;
-}
-@keyframes explode{
-to{
-transform:translate(var(--x),var(--y));
-opacity:0;
-}
-}
-
-/* ===== HISTORY ===== */
-.history{
-position:fixed;
-right:10px;
-top:10px;
-background:rgba(0,0,0,0.4);
-padding:15px;
-border-radius:10px;
-font-size:14px;
-max-height:250px;
-overflow:auto;
-}
-.history h3{
-margin:0 0 5px 0;
-color:gold;
-}
-
-/* ===== FLOWERS ===== */
-.flower{
-position:absolute;
-font-size:20px;
-animation:fall linear infinite;
-}
-@keyframes fall{
-from{transform:translateY(-10vh);}
-to{transform:translateY(110vh);}
-}
-</style>
+        .flower { position: absolute; font-size: 20px; animation: fall linear infinite; pointer-events: none; }
+        @keyframes fall { from { transform: translateY(-10vh); } to { transform: translateY(110vh); } }
+    </style>
 </head>
 <body>
 
-<h1>🧧 LÌ XÌ TẾT PRO 🧧</h1>
+<h1>🧧 LÌ XÌ TẾT PRO 2026 🧧</h1>
+<div id="status-text">Đưa chuột vào bao lì xì để nhận lộc!</div>
 
-<div class="scene" onclick="openEnvelope()">
-<div class="envelope" id="env">
-<div class="front">🧧</div>
-<div class="back"></div>
-</div>
+<div class="scene" id="lixi-container">
+    <div class="envelope" id="env">
+        <div class="front" id="lixi-icon">🧧</div>
+    </div>
 </div>
 
-<div class="money" id="moneyArea"></div>
-
-<div class="history">
-<h3>💰 Lịch sử</h3>
-<div id="historyList"></div>
-</div>
+<div id="message-area"></div>
 
 <script>
-let opened=false;
+    let runCount = 0;
+    let nestCount = 0;
+    const maxRun = 3;
+    const maxNest = 5;
+    const container = document.getElementById('lixi-container');
+    const statusText = document.getElementById('status-text');
+    const lixiIcon = document.getElementById('lixi-icon');
 
-function getRandomMoney(){
-let r=Math.random()*100;
-if(r<30) return 1000;
-else if(r<50) return 2000;
-else if(r<70) return 5000;
-else if(r<85) return 10000;
-else if(r<95) return 20000;
-else return 30000;
-}
+    // 1. Logic chạy trốn
+    container.addEventListener('mouseover', () => {
+        if (runCount < maxRun) {
+            runCount++;
+            statusText.innerText = `Kiếp nạn thứ ${runCount}: Nhanh tay lên nào!`;
+            
+            const newX = Math.random() * (window.innerWidth - 200) + 100;
+            const newY = Math.random() * (window.innerHeight - 300) + 150;
+            
+            container.style.left = newX + 'px';
+            container.style.top = newY + 'px';
+        } else {
+            statusText.innerText = "Đã tóm được! Hãy bấm mở ngay!";
+        }
+    });
 
-function openEnvelope(){
-if(opened) return;
-opened=true;
+    // 2. Logic Búp bê Nga (Inception)
+    container.addEventListener('click', () => {
+        if (runCount < maxRun) return;
 
-document.getElementById("env").classList.add("open");
+        if (nestCount < maxNest) {
+            nestCount++;
+            // Làm bao lì xì nhỏ dần mỗi lần bấm
+            const scale = 1 - (nestCount * 0.15);
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            
+            // Thay đổi icon để trêu chọc
+            const icons = ["🧧", "✉️", "📦", "🤏", "🕳️"];
+            lixiIcon.innerText = icons[nestCount % icons.length];
+            
+            statusText.innerText = `Ô kìa! Còn một cái bao nhỏ hơn ở trong... (${nestCount}/${maxNest})`;
+        } else {
+            startFinalTroll();
+        }
+    });
 
-let area=document.getElementById("moneyArea");
-area.style.display="block";
+    // 3. Cơn mưa thông báo (Alert Spam)
+    function startFinalTroll() {
+        container.style.display = 'none';
+        statusText.style.display = 'none';
+        document.body.classList.add('flash');
+        
+        const trollMessages = [
+            "🧧 Đang kết nối với ngân hàng trung ương...",
+            "🔍 Đang phân tích sinh trắc học...",
+            "❌ LỖI: Phát hiện nhan sắc không đủ điều kiện nhận tiền!",
+            "🤨 Bạn định mở bao nhiêu cái nữa mới chịu thôi?",
+            "🚫 Tài khoản của bạn đã bị trừ 500k phí 'Tò mò'!",
+            "🤡 Nick Facebook của bạn đang được gửi khánh đe zét...",
+            "📁 máy tính nổ tung trong 3.... 2.....1....? ",
+            "🤣 Thôi giỡn đó! Đừng có mặt xanh lẹt vậy chứ!",
+            "🎊 Chúc mừng bạn đã trúng 1 năm may mắn và tỉnh táo tôi nghèo ko có tiền đâu!",
+            "🎉 CHÚC MỪNG NĂM MỚI 2026! 🎉"
+        ];
 
-let spinTime=2000;
-let start=Date.now();
+        let i = 0;
+        function showNextAlert() {
+            if (i < trollMessages.length) {
+                alert(trollMessages[i]);
+                i++;
+                setTimeout(showNextAlert, 100);
+            } else {
+                document.body.classList.remove('flash');
+                document.getElementById('message-area').style.display = 'block';
+                document.getElementById('message-area').innerHTML = "<h2>🧧 CHÚC MỪNG NĂM MỚI 🧧</h2><p>Troll xíu cho vui thôi, chúc bạn 2026 vạn sự như ý!</p>";
+            }
+        }
+        showNextAlert();
+    }
 
-let spin=setInterval(()=>{
-let fake=[1000,2000,5000,10000,20000,30000];
-let randomFake=fake[Math.floor(Math.random()*fake.length)];
-area.innerHTML="<div class='note' style='background:#444'>🎰 "+randomFake.toLocaleString()+" VND</div>";
-if(Date.now()-start>spinTime){
-clearInterval(spin);
-showMoney();
-}
-},100);
-}
+    // Hiệu ứng hoa rơi
+    function createFlowers() {
+        const f = document.createElement("div");
+        f.className = "flower";
+        f.innerHTML = Math.random() > 0.5 ? "🌸" : "🌼";
+        f.style.left = Math.random() * 100 + "vw";
+        f.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 6000);
+    }
+    setInterval(createFlowers, 400);
 
-function showMoney(){
-let value=getRandomMoney();
-let area=document.getElementById("moneyArea");
-
-let colors={
-1000:"#6a5acd",
-2000:"#2e8b57",
-5000:"#1e90ff",
-10000:"#8b0000",
-20000:"#006400",
-30000:"#b8860b"
-};
-
-area.innerHTML="<div class='note' style='background:"+colors[value]+"'>💵 "+value.toLocaleString()+" VND</div>";
-
-if(value>=20000){
-document.body.classList.add("flash");
-}
-
-if(value==30000){
-launchFireworks(80);
-}else{
-launchFireworks(40);
-}
-
-saveHistory(value);
-}
-
-function launchFireworks(power){
-for(let i=0;i<power;i++){
-let fw=document.createElement("div");
-fw.className="firework";
-fw.style.background=`hsl(${Math.random()*360},100%,50%)`;
-fw.style.left=Math.random()*100+"vw";
-fw.style.top=Math.random()*50+"vh";
-fw.style.setProperty("--x",(Math.random()*400-200)+"px");
-fw.style.setProperty("--y",(Math.random()*400-200)+"px");
-document.body.appendChild(fw);
-setTimeout(()=>fw.remove(),1000);
-}
-}
-
-function saveHistory(value){
-let history=JSON.parse(localStorage.getItem("lixiHistory"))||[];
-history.unshift(value);
-localStorage.setItem("lixiHistory",JSON.stringify(history));
-renderHistory();
-}
-
-function renderHistory(){
-let history=JSON.parse(localStorage.getItem("lixiHistory"))||[];
-let html="";
-history.slice(0,10).forEach(v=>{
-html+="<div>"+v.toLocaleString()+" VND</div>";
-});
-document.getElementById("historyList").innerHTML=html;
-}
-
-renderHistory();
-
-function createFlowers(){
-let flower=document.createElement("div");
-flower.className="flower";
-flower.innerHTML=Math.random()>0.5?"🌸":"🌼";
-flower.style.left=Math.random()*100+"vw";
-flower.style.animationDuration=(Math.random()*5+5)+"s";
-document.body.appendChild(flower);
-setTimeout(()=>flower.remove(),10000);
-}
-setInterval(createFlowers,500);
-
+    // Chặn chuột phải
+    document.oncontextmenu = () => false;
 </script>
 </body>
 </html>
